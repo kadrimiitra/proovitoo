@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['login'])){
+
+    header("Location: login.php");
+    die("Vale koht");
+}
+
+//print_r($_SESSION['login'] );
+?>
+<a href="logout.php">Logi välja</a>
+
 <?php include("config.php"); ?>
 
 
@@ -12,9 +25,7 @@
 <title>Hinda söögikohti</title>
 </head>
 <body>
-<div class="mb-4">
-        <a href="admin/login.php" class="btn btn-primary">Logi sisse</a>
-    </div>
+
 <div class="text-center mt-5">
         <h1>Valige asutus, mida hinnata</h1>
     </div>
@@ -55,7 +66,9 @@ $total_pages = ceil($row['total'] / $limit);
             </div>
         </div>
     </form>
-
+    <div class="mb-4">
+        <a href="lisa.php" class="btn btn-success">Lisa uus</a>
+    </div>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -63,20 +76,25 @@ $total_pages = ceil($row['total'] / $limit);
                 <th><a href="?sort=asukoht&order=<?php echo $order == 'ASC' ? 'DESC' : 'ASC'; ?>">Asukoht</a></th>
                 <th><a href="?sort=keskmine_hinne&order=<?php echo $order == 'ASC' ? 'DESC' : 'ASC'; ?>">Keskmine hinne</a></th>
                 <th><a href="?sort=hinnangute_arv&order=<?php echo $order == 'ASC' ? 'DESC' : 'ASC'; ?>">Hinnatud kordi</a></th>
+                <th>Toimingud</th>
             </tr>
         </thead>
         <tbody>
             <?php if (mysqli_num_rows($valjund) > 0): ?>
                 <?php while ($row = mysqli_fetch_assoc($valjund)): ?>
                     <tr>
-                        <td><a href='hinda.php?id=<?php echo $row['id']; ?>'><?php echo $row['nimi']; ?></a></td>
+                        <td><a href='adminhinda.php?id=<?php echo $row['id']; ?>'><?php echo $row['nimi']; ?></a></td>
                         <td><?php echo $row['asukoht']; ?></td>
                         <td><?php echo $row['keskmine_hinne']; ?></td>
                         <td><?php echo $row['hinnangute_arv']; ?></td>
+                        <td>
+                        <a href='muuda.php?id=<?php echo $row['id']; ?>' class="btn btn-warning">Muuda</a>
+                        <a href='kustuta.php?id=<?php echo $row['id']; ?>' class="btn btn-danger" onclick="return confirm('Kas oled kindel, et soovid kustutada?')">Kustuta</a>
+                    </td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <tr><td colspan='4'>Andmed puuduvad</td></tr>
+                <tr><td colspan='5'>Andmed puuduvad</td></tr>
             <?php endif; ?>
         </tbody>
 
