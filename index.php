@@ -12,8 +12,8 @@
 <title>Hinda söögikohti</title>
 </head>
 <body>
-<div class="mb-4">
-        <a href="admin/login.php" class="btn btn-primary">Logi sisse</a>
+<div class="mb-4 mt-4 ">
+        <a href="admin/login.php" class="btn btn-outline-primary ms-5">Logi sisse</a>
     </div>
 <div class="text-center mt-5">
         <h1>Valige asutus, mida hinnata</h1>
